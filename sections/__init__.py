@@ -1,3 +1,5 @@
 from .yearly_recap import show_yearly_recap
 from.year_on_year_comparison import show_yoy_comparison
-from .streak_analysis import streak_analysis_fun
+from .streak_analysis import show_streak_analysis
+from .time_analysis import show_time_analysis
+from .mes_del_convidat import show_mes_del_convidat
