@@ -26,9 +26,10 @@ st.title("📊 Pahoot: Event Dashboard")
 
 # KPI Metrics
 col1, col2 = st.columns(2)
-col1.metric(label="Total Events", value=len(df))
+col1.metric(label="Gaioles totals", value=len(df))
 # Count number of days from 1-1-2023
-col2.metric(label="Total recording days", value=(datetime.today() - datetime(2023,1,1)).days)
+col2.metric(label="Dies desde l'inici de Pahoot", value=(datetime.today() - datetime(2023,1,1)).days)
+st.markdown("---")
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
@@ -38,18 +39,13 @@ page = st.sidebar.radio("Go to:", ["General Overview", "Yearly Recap", "Year-ove
 #     show_general_overview(df_all)
 
 if page == "Yearly Recap":
-    st.markdown("---")
-    st.markdown("## 📆 Yearly Recap")
     show_yearly_recap(df_all)
 
 elif page == "Year-over-Year Comparison":
-    st.markdown("---")
     st.markdown("## 📊 Year-over-Year Comparison")
     show_yoy_comparison(df_all)
 
 elif page == "Streak analisis":
-    st.markdown("---")
-    st.markdown("## 📈 Streak analysis")
     streak_analysis_fun(df_all)
 
 # elif page == "Time Analysis":

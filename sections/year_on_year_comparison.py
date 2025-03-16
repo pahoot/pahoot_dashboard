@@ -10,12 +10,12 @@ import plotly.graph_objects as go
 
 def show_yoy_comparison(df_all):
 
-    df_all = df_all[~df_all["Person_id"].str.len().eq(4)]
+    df_all = df_all[~df_all["Person_id"].str.len().eq(4)] # Filtrar invitats
 
     st.subheader("📊 Year-on-Year Comparison - Individual Evolution")
 
     # User selects participants
-    participants = st.multiselect("Select Participants:", df_all["Person_id"].unique(), default=df_all["Person_id"].unique())
+    participants = st.multiselect("Select Participants:", df_all["pseudonim"].unique(), default=df_all["pseudonim"].unique())
 
     # Aggregation choice (Half-Year, Yearly, etc.)
     aggregation = st.selectbox("Select Aggregation Level:", ["Half-Year", "Yearly"])
@@ -29,16 +29,16 @@ def show_yoy_comparison(df_all):
         df_all["Period"] = df_all["Year"]
 
     # Filter dataset by selected participants
-    df_comparison = df_all[df_all["Person_id"].isin(participants)]
-    df_comparison = df_comparison.groupby(["Year", "Period", "Person_id"]).size().reset_index(name="Total Events")
+    df_comparison = df_all[df_all["pseudonim"].isin(participants)]
+    df_comparison = df_comparison.groupby(["Year", "Period", "pseudonim"]).size().reset_index(name="Total Events")
 
     # Create the connected dot plot
     fig = px.line(
         df_comparison, 
         x="Year", 
         y="Total Events", 
-        color="Person_id",
-        facet_col="Person_id",  # Creates separate subplots per person
+        color="pseudonim",
+        facet_col="pseudonim",  # Creates separate subplots per person
         markers=True,  # Adds dots at each point
         title="📊 Yearly Event Evolution per Person",
         height=600
