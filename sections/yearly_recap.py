@@ -15,10 +15,9 @@ def show_yearly_recap(df_all : pd.DataFrame):
     year_selected = st.selectbox("Select a Year:", sorted(df_all["Year"].unique()), index=len(df_all["Year"].unique())-1)
 
     # Filter data to selected year (excluding invitees)
-    df_year = df_all[(df_all["Year"] == year_selected) & (~df_all["pseudonim"].str.endswith("c"))]
+    df_year = df_all[(df_all["Year"] == year_selected) & (~df_all["Person_id"].str.endswith("c"))]
 
     # --------------------------------------
-
     st.subheader(f"🎯 Gaioles per persona {year_selected}")
 
     # Count total events per person
