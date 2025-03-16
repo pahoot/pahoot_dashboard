@@ -21,7 +21,7 @@ streaks = analysis.calculate_streaks(df)
 df_all = df  # All years for general plots
 
 # Dashboard Title
-st.title("📊 Pahoot: Event Dashboard")
+st.title("📊 Pahoot: Event Dashboard (beta)")
 
 # KPI Metrics
 col1, col2 = st.columns(2)
