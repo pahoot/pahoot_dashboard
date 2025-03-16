@@ -16,7 +16,7 @@ def show_yoy_comparison(df_all):
     st.subheader("📊 Year-on-Year Comparison - Individual Evolution")
 
     # User selects participants
-    participants = st.multiselect("Select Participants:", df_all["pseudonim"].unique(), default=df_all["pseudonim"].unique())
+    participants = st.multiselect("Select Participants:", df_all["Person_id"].unique(), default=df_all["Person_id"].unique())
 
     # Aggregation choice (Half-Year, Monthly, Yearly)
     aggregation = st.selectbox("Select Aggregation Level:", ["Monthly", "Half-Year", "Yearly"])
@@ -39,8 +39,8 @@ def show_yoy_comparison(df_all):
         periods = ["years"]  # Define only the relevant period
 
     # Filter dataset by selected participants
-    df_comparison = df_all[df_all["pseudonim"].isin(participants)]
-    df_comparison = df_comparison.groupby(["Year", "Period", "pseudonim"]).size().reset_index(name="Total Events")
+    df_comparison = df_all[df_all["Person_id"].isin(participants)]
+    df_comparison = df_comparison.groupby(["Year", "Period", "Person_id"]).size().reset_index(name="Total Events")
 
     # Create separate plots per period
     for period in periods:
@@ -53,8 +53,8 @@ def show_yoy_comparison(df_all):
             df_period, 
             x="Year", 
             y="Total Events", 
-            color="pseudonim",
-            facet_col="pseudonim",
+            color="Person_id",
+            facet_col="Person_id",
             markers=True,  # Adds dots at each point
             title=f"📊 Evolution for {period}",  # Dynamic title per period
             height=500

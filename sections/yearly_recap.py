@@ -21,11 +21,11 @@ def show_yearly_recap(df_all : pd.DataFrame):
     st.subheader(f"🎯 Gaioles per persona {year_selected}")
 
     # Count total events per person
-    person_counts = df_year["pseudonim"].value_counts().reset_index()
-    person_counts.columns = ["pseudonim", "Total Events"]
+    person_counts = df_year["Person_id"].value_counts().reset_index()
+    person_counts.columns = ["Person_id", "Total Events"]
 
     # Tile plot
-    fig = px.treemap(person_counts, path=["pseudonim"], values="Total Events", title=f"Total Events per Person ({year_selected})", color="Total Events")
+    fig = px.treemap(person_counts, path=["Person_id"], values="Total Events", title=f"Total Events per Person ({year_selected})", color="Total Events")
     st.plotly_chart(fig)
 
     # --------------------------------------
@@ -34,14 +34,14 @@ def show_yearly_recap(df_all : pd.DataFrame):
 
     # Count events per person per month
     df_year["Month"] = df_year["Day"].dt.month
-    monthly_counts = df_year.groupby(["Month", "pseudonim"]).size().reset_index(name="Total Events")
+    monthly_counts = df_year.groupby(["Month", "Person_id"]).size().reset_index(name="Total Events")
 
     # Line plot with multiple persons
     fig = px.line(
         monthly_counts, 
         x="Month", 
         y="Total Events", 
-        color="pseudonim",
+        color="Person_id",
         markers=True
     )
 
@@ -59,10 +59,10 @@ def show_yearly_recap(df_all : pd.DataFrame):
     st.subheader(f"📅 Distribució de gaioles per dia de la setmana {year_selected}")    
 
     # Count events per weekday per person
-    weekday_counts = df_year.groupby(["Weekday", "pseudonim"]).size().reset_index(name="Total Events")
+    weekday_counts = df_year.groupby(["Weekday", "Person_id"]).size().reset_index(name="Total Events")
 
     # Convert to percentage per person
-    weekday_counts["Percentage"] = weekday_counts.groupby("pseudonim")["Total Events"].transform(lambda x: (x / x.sum()) * 100)
+    weekday_counts["Percentage"] = weekday_counts.groupby("Person_id")["Total Events"].transform(lambda x: (x / x.sum()) * 100)
 
     # Define correct weekday order in Catalan
     weekday_order = ["Dilluns", "Dimarts", "Dimecres", "Dijous", "Divendres", "Dissabte", "Diumenge"]
@@ -73,7 +73,7 @@ def show_yearly_recap(df_all : pd.DataFrame):
         weekday_counts, 
         x="Weekday", 
         y="Percentage", 
-        color="pseudonim",
+        color="Person_id",
         barmode="group",
         category_orders={"Weekday": weekday_order}  # ⬅️ Forces correct order
     )
@@ -88,10 +88,10 @@ def show_yearly_recap(df_all : pd.DataFrame):
     df_year["Week"] = df_year["Day"].dt.strftime("%U").astype(int)  # %U gives week number (0-53)
 
     # Count events per (week, person)
-    weekly_counts = df_year.groupby(["Week", "pseudonim"]).size().reset_index(name="Total Events")
+    weekly_counts = df_year.groupby(["Week", "Person_id"]).size().reset_index(name="Total Events")
 
     # Pivot the data for heatmap format (weeks as rows, persons as columns)
-    heatmap_data = weekly_counts.pivot(index="Week", columns="pseudonim", values="Total Events").fillna(0)
+    heatmap_data = weekly_counts.pivot(index="Week", columns="Person_id", values="Total Events").fillna(0)
 
     # Create the heatmap
     fig = px.imshow(

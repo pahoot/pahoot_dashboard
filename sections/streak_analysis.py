@@ -18,7 +18,7 @@ def show_streak_analysis(df_all: pd.DataFrame):
         df_all = df_all[df_all["Person_id"].str.len() != 4]
 
     # Sort by Person and Date
-    df_sorted = df_all.sort_values(["pseudonim", "Day"])
+    df_sorted = df_all.sort_values(["Person_id", "Day"])
 
     # Streaks Calculation
     streaks = {}        # Stores longest active streaks
@@ -31,7 +31,7 @@ def show_streak_analysis(df_all: pd.DataFrame):
     inactive_dates = {}  # Stores dates of longest inactivity streak
 
     for _, row in df_sorted.iterrows():
-        person = row["pseudonim"]
+        person = row["Person_id"]
         date = row["Day"]
         
         if person not in previous_day:
@@ -74,22 +74,22 @@ def show_streak_analysis(df_all: pd.DataFrame):
         inactive_streaks[person] = max(inactive_streaks.get(person, 0), current_inactive[person])
 
     # Convert to DataFrames
-    streak_df = pd.DataFrame(streaks.items(), columns=["pseudonim", "Max_Streak"]).sort_values(by="Max_Streak", ascending=False)
-    inactive_df = pd.DataFrame(inactive_streaks.items(), columns=["pseudonim", "Max_Inactive_Streak"]).sort_values(by="Max_Inactive_Streak", ascending=False)
+    streak_df = pd.DataFrame(streaks.items(), columns=["Person_id", "Max_Streak"]).sort_values(by="Max_Streak", ascending=False)
+    inactive_df = pd.DataFrame(inactive_streaks.items(), columns=["Person_id", "Max_Inactive_Streak"]).sort_values(by="Max_Inactive_Streak", ascending=False)
 
     # 📊 Plot Active Streaks
     st.subheader("📈 Longest Consecutive Streak of Activity")
-    fig_active = px.bar(streak_df, x="pseudonim", y="Max_Streak", color="Max_Streak")
+    fig_active = px.bar(streak_df, x="Person_id", y="Max_Streak", color="Max_Streak")
     st.plotly_chart(fig_active)
 
     # 📉 Plot Inactive Streaks
     st.subheader("🧘 Longest Consecutive Streak of Abstinence")
-    fig_inactive = px.bar(inactive_df, x="pseudonim", y="Max_Inactive_Streak", color="Max_Inactive_Streak")
+    fig_inactive = px.bar(inactive_df, x="Person_id", y="Max_Inactive_Streak", color="Max_Inactive_Streak")
     st.plotly_chart(fig_inactive)
 
     # 👤 **Select a Participant to See Exact Streak Dates**
     st.subheader("🔍 Detall individual")
-    selected_person = st.selectbox("Select a participant:", sorted(df_all["pseudonim"].unique()))
+    selected_person = st.selectbox("Select a participant:", sorted(df_all["Person_id"].unique()))
 
     # Only proceed if the selected person has any streak data
     if selected_person in streaks or selected_person in inactive_streaks:
