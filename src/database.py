@@ -1,5 +1,4 @@
 from sqlalchemy import create_engine, text
-from settings import DB_CONNECTION_STRING
 from sqlalchemy import text
 import pandas as pd
 

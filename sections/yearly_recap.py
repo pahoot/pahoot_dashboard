@@ -4,7 +4,8 @@ import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
-import settings
+
+mesos = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"]
 
 def show_yearly_recap(df_all : pd.DataFrame):
 
@@ -49,7 +50,7 @@ def show_yearly_recap(df_all : pd.DataFrame):
     fig.update_xaxes(
         tickmode="array",
         tickvals=list(range(1, 13)),  # Month numbers (1-12)
-        ticktext=settings.mesos
+        ticktext=mesos
     )
 
     st.plotly_chart(fig)
