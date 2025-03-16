@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
 
-def streak_analysis_fun(df_all: pd.DataFrame):
+def show_streak_analysis(df_all: pd.DataFrame):
     col1, col2 = st.columns([4, 1])  # Adjust column widths
 
     col1.markdown("## 🔥 Streak analysis")
