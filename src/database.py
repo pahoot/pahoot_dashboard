@@ -5,10 +5,7 @@ import pandas as pd
 
 def fetch_data():
     """Fetch event data from the database."""
-    query = text("SELECT g.*, pseudonim FROM Gaioles g join Person p on p.person_id = g.person_id")
-    engine = create_engine(DB_CONNECTION_STRING)
-    with engine.connect() as conn:
-        df = pd.read_sql(query, conn)
+    df = pd.read_csv("data/database.csv")
 
     # Convert to datetime
     df["Day"] = pd.to_datetime(df["Day"])
